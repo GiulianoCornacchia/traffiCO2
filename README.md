@@ -6,7 +6,7 @@
 
 
 
-## How to install SUMO (Simulation of Urban MObility) 🛣️🚦🚗🚙
+## How to install SUMO (Simulation of Urban MObility) 🚗🚙
 
 Please always refer to the [SUMO Installation page](https://sumo.dlr.de/docs/Installing/index.html)
 for the latest installation instructions.
