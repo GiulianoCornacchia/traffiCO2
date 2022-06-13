@@ -23,4 +23,8 @@ sudo apt-get update
 sudo apt-get install sumo sumo-tools sumo-doc
 ```
 
+### Configure SUMO
 
+Setup the environment variable `SUMO_HOME`.
+
+export SUMO_HOME="/home/<user>/sumo-<version>"
