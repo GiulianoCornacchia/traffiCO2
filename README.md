@@ -6,7 +6,7 @@
 
 
 
-## How to install and configure SUMO (Simulation of Urban MObility) 🚗🚙🛻
+# How to install and configure SUMO (Simulation of Urban MObility) 🚗🚙🛻
 
 ### Install SUMO
 
