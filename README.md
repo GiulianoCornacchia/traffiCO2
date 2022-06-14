@@ -45,8 +45,13 @@ brew install sumo
 ```
 
 
-
-
-
 ### Configure SUMO
 
+Definition of the `SUMO_HOME` environment path.
+
+
+#### Windows
+
+#### Linux
+
+#### macOS
