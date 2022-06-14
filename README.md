@@ -17,7 +17,7 @@ for the latest installation instructions.
 
 To install SUMO on Windows it is necessary to download the installer [here](https://sumo.dlr.de/docs/Downloads.php#windows) and run the executable.
 
-#### Linux
+#### > Linux
 
 To install SUMO on Linux is it necessary to execute the following commands:
 
@@ -27,7 +27,7 @@ sudo apt-get update
 sudo apt-get install sumo sumo-tools sumo-doc
 ```
 
-#### macOS
+#### > macOS
 
 SUMO can be installed on macOS via [Homebrew](https://brew.sh/).
 
@@ -51,14 +51,14 @@ After installing SUMO you must configure your `PATH` and `SUMO_HOME` environment
 
 Suppose you installed SUMO at `/your/path/to/sumo-<version>`
 
-#### Windows
+#### > Windows
 1. On the Windows search box search for "Edit the system environment variables" option and open it;
 2. Under user variables select `PATH` and click Edit. If no such variable exists you must create it with the New-Button; 
 3. Append `;/your/path/to/sumo-<version>/bin` to the end of the `PATH` value (do not delete the existing values);
 4. Under user variables select `SUMO_HOME` and click Edit. If no such variable exists you must create it with the New-Button;
 5. Set `/your/path/to/sumo-<version>` as the value of the `SUMO_HOME` variable.
 
-#### Linux
+#### > Linux
 
 1. Open a file explorer and go to `/home/YOUR_NAME/`;
 2. Open the file named `.bashrc` with a text editor;
@@ -66,7 +66,7 @@ Suppose you installed SUMO at `/your/path/to/sumo-<version>`
 4. Reboot your computer.
 
 
-#### macOS
+#### > macOS
 
 First you need to determine which shell (bash or zsh) you are currently working with. In a terminal, `type ps -p $$`.
 
