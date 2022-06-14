@@ -6,14 +6,14 @@
 
 
 
-# How to install and configure SUMO (Simulation of Urban MObility) 🚗🚙🛻
+## How to install and configure SUMO (Simulation of Urban MObility) 🚗🚙🛻
 
 ### Install SUMO
 
 Please always refer to the [SUMO Installation page](https://sumo.dlr.de/docs/Installing/index.html)
 for the latest installation instructions.
 
-#### Windows
+#### > Windows
 
 To install SUMO on Windows it is necessary to download the installer [here](https://sumo.dlr.de/docs/Downloads.php#windows) and run the executable.
 
