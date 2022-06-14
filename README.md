@@ -67,3 +67,26 @@ Suppose you installed SUMO at `/your/path/to/sumo-<version>`
 
 
 #### macOS
+
+First you need to determine which shell (bash or zsh) you are currently working with. In a terminal, `type ps -p $$`.
+
+##### ZSH
+
+In a Terminal, execute the following steps:
+
+1. Run the command `open ~/.zshrc`, this will open the `.zshrc` file in TextEdit;
+2. Add the following line to that document: `export SUMO_HOME="/your/path/to/sumo-<version>"` and save it;
+3. Apply the changes by entering: `source ~/.zshrc`.
+
+##### bash
+
+In a Terminal, execute the following steps:
+
+1. Run the command `open ~/.bash_profile`, this will open the `.bash_profile` file in TextEdit;
+2. Add the following line to that document: `export SUMO_HOME="/your/path/to/sumo-<version>"` and save it;
+3. Apply the changes by entering: `source ~/.bash_profile`.
+
+
+
+
+
