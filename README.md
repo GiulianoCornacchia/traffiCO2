@@ -11,7 +11,7 @@ Navigation systems use routing algorithms to suggest the most comfortable path t
 
 
 
-# Citing
+## Citing
 In this repository you can find the code to replicate the analysis of our work regarding the impact of navigation apps on the urban sustainability.
 If you use the code in this repository, please cite our paper:
 
