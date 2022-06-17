@@ -5,17 +5,15 @@
 
 Authors: Giuliano Cornacchia, Matteo Böhm, Giovanni Mauro, Mirco Nanni, Dino Pedreschi, and Luca Pappalardo.
 
-#### Abstract
 
-Navigation apps use routing algorithms to suggest the best path to reach a user's desired destination. Although undoubtedly useful, navigation apps' impact on the urban environment (e.g., carbon dioxide emissions and population exposure to pollution) is still largely unclear. In this work, we design a simulation framework to assess the impact of routing algorithms on carbon dioxide emissions within an urban environment. Using APIs from TomTom and OpenStreetMap, we find that settings in which either all vehicles or none of them follow a navigation app's suggestion lead to the worst impact in terms of CO$_2$ emissions. In contrast, when just a portion (around half) of vehicles follow these suggestions, and some degree of randomness is added to the remaining vehicles' paths, we observe a reduction in the overall CO$_2$ emissions over the road network. Our work is a first step towards designing next-generation routing principles that may increase urban well-being while satisfying individual needs. 
+In this repository you can find the Python code to replicate the analysis of our work regarding the impact of navigation apps on the urban sustainability.
 
+```
+Cornacchia, G., Böhm, M., Mauro, G., Nanni, M., Pedreschi, D., & Pappalardo, L. (2022).
+How Routing Strategies Impact Urban Emissions. arXiv preprint arXiv:xxxx.xxxx.
+```
 
-
-## Citing
-In this repository you can find the code to replicate the analysis of our work regarding the impact of navigation apps on the urban sustainability.
 If you use the code in this repository, please cite our paper:
-
-*Cornacchia, G., Böhm, M., Mauro, G., Nanni, M., Pedreschi, D., & Pappalardo, L. (2022). How Routing Diversification Mitigates Urban Emissions. arXiv preprint arXiv:xxxx.xxxx.*
 
 ```
 @article{cornacchia2022impact,
@@ -26,6 +24,11 @@ If you use the code in this repository, please cite our paper:
 }
 ```
 
+## Abstract
+
+Navigation apps use routing algorithms to suggest the best path to reach a user's desired destination. Although undoubtedly useful, navigation apps' impact on the urban environment (e.g., carbon dioxide emissions and population exposure to pollution) is still largely unclear. In this work, we design a simulation framework to assess the impact of routing algorithms on carbon dioxide emissions within an urban environment. Using APIs from TomTom and OpenStreetMap, we find that settings in which either all vehicles or none of them follow a navigation app's suggestion lead to the worst impact in terms of CO$_2$ emissions. In contrast, when just a portion (around half) of vehicles follow these suggestions, and some degree of randomness is added to the remaining vehicles' paths, we observe a reduction in the overall CO$_2$ emissions over the road network. Our work is a first step towards designing next-generation routing principles that may increase urban well-being while satisfying individual needs. 
+
+## Setup
 
 
 
