@@ -19,7 +19,7 @@ If you use the code in this repository, please cite our paper:
 
 ```
 @article{cornacchia2022impact,
-  title={On the Impact of Navigation Routing Strategies on Urban Sustainability},
+  title={How Routing Strategies Impact Urban Emissions},
   author={Cornacchia, Giuliano and Böhm Matteo and Mauro, Giovanni and Nanni, Mirco and Pedreschi, Dino and Pappalardo, Luca},
   journal={},
   year={2022}
