@@ -1,13 +1,13 @@
 
 
 
-# How Routing Diversification Mitigates Urban Emissions
+# How Routing Strategies Impact Urban Emissions
 
 Authors: Giuliano Cornacchia, Matteo Böhm, Giovanni Mauro, Mirco Nanni, Dino Pedreschi, and Luca Pappalardo.
 
 #### Abstract
 
-Navigation systems use routing algorithms to suggest the most comfortable path to reach a specific destination given an origin or the current position. Although undoubtedly useful, navigation systems' impact on the urban environment (e.g., the CO$_2$ emissions generated and population exposure to NOx) are still largely unclear. In this work, we design a simulation framework to assess the impact of routing algorithms on CO$_2$ emissions within an urban environment. Using APIs from OpenStreetMap and TomTom, we find that settings in which either all vehicles or none of them follow a navigation system's suggestion lead to the worst impact in terms of CO$_2$ emissions. In contrast, when just a portion (around half) of vehicles follow these suggestions, and some degree of randomness is added to the path followed by the remaining vehicles, we observe a reduction of the overall CO$_2$ emissions over the road network. Our work is a first step towards designing new generation routing principles that may increase urban well-being while satisfying individual needs.
+Navigation apps use routing algorithms to suggest the best path to reach a user's desired destination. Although undoubtedly useful, navigation apps' impact on the urban environment (e.g., carbon dioxide emissions and population exposure to pollution) is still largely unclear. In this work, we design a simulation framework to assess the impact of routing algorithms on carbon dioxide emissions within an urban environment. Using APIs from TomTom and OpenStreetMap, we find that settings in which either all vehicles or none of them follow a navigation app's suggestion lead to the worst impact in terms of CO$_2$ emissions. In contrast, when just a portion (around half) of vehicles follow these suggestions, and some degree of randomness is added to the remaining vehicles' paths, we observe a reduction in the overall CO$_2$ emissions over the road network. Our work is a first step towards designing next-generation routing principles that may increase urban well-being while satisfying individual needs. 
 
 
 
