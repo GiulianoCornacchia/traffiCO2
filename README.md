@@ -114,5 +114,16 @@ In a Terminal, execute the following steps:
 
 
 
+# Structure of the repository and analysis
 
+- **```src/```** folder:
+  - ```0_prepare_Milan_GPS_dataset.ipynb```: notebook for cleaning, preprocessing and segmenting the Milan GPS track dataset available [here](https://ckan-sobigdata.d4science.org/dataset/gps_track_milan_italy)
+  - ```1_create_od_matrix.ipynb```: notebook for creating the Origin Destination matrix (See Sec. 3.2 of our paper)
+  - ```2_create_mobility_demand.ipynb```: notebook for generating the Mobility Demand (See Sec. 3.2 of our paper)
+  - ```3{a,b,c}_create_routed_paths{duarouter,osm,tomtom}.ipynb```: notebook for creating the multiset of routed path for duarouter (a), OpenStreetMap (b), and TomTom (c). The paths are expressed as sequences of GPS points that require a map-matching (See Sec. 3.3 of our paper)
+  - ```4{a,b}_map_matching_{osm,tomtom}.ipynb```: notebook for map-matching the sequences of GPS points into a sequence of SUMO edges withinh the road network for osm (a) and TomTom (b).
+  - ```5{a,b}_create_mixed_routed_paths_{osm,tomtom}.ipynb```: notebook for creating the different routed paths that represent different percentage of routed vehicles
+  - ```6_experiments.ipynb```: this notebook take as input a set of routed paths and performs the simulation described in Sec. 4 of our paper.
+
+ 
 
