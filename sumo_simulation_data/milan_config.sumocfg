@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2021-10-28 18:29:10 by Eclipse SUMO GUI Version 1.10.0
+-->
+
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="milan_road_network.net.xml"/>
+        <route-files value="mobility_demands/duarouter_two.rou.xml"/>
+    </input>
+
+</configuration>

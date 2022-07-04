@@ -8,10 +8,16 @@ import xml
 from xml.dom import minidom
 from itertools import groupby
 import subprocess
-
+import folium
 import traci
 import os
 import sys
+import datetime
+import urllib.parse as urlparse
+import requests
+from time import sleep
+import openrouteservice as ors
+
 
 
 '''
@@ -136,8 +142,11 @@ def create_mobility_demand(n_veichles, dict_tile_edges, od_matrix, road_network,
                               'via': False, 'number':1, 'dt':10}
 
     res = create_xml_flows(dict_mobility_demand, filename+".rou.xml")
+
+    dict_mobility_demand_pairs = {k:{"edges":dict_mobility_demand[k]['edges'], 
+    "time":dict_mobility_demand[k]['time']} for k in dict_mobility_demand.keys()}
     
-    return od_pairs, departure_times, dict_mobility_demand
+    return od_pairs, departure_times, dict_mobility_demand_pairs
 
 
 def create_xml_flows(dict_flows={}, filename=None, check_validity=True):
@@ -220,6 +229,70 @@ def create_xml_flows(dict_flows={}, filename=None, check_validity=True):
         f.write(xml_str)
 
     return {'valid':valid_list, 'invalid': invalid_list}
+
+
+
+def create_xml_vehicles(dict_vehicles, filename):
+    
+    # xml creation
+    root = minidom.Document()
+    xml = root.createElement("routes")
+    xml.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+    xml.setAttribute("xsi:noNamespaceSchemaLocation", "http://sumo.dlr.de/xsd/routes_file.xsd")
+    root.appendChild(xml)
+
+    #vehicle type(s)
+    element = root.createElement("vType")
+    element.setAttribute("id", "type1")
+    element.setAttribute("accel", "2.6")
+    element.setAttribute("decel", "4.5")
+    element.setAttribute("sigma", "0.5")
+    element.setAttribute("length", "5")
+    element.setAttribute("maxSpeed", "70")
+    xml.appendChild(element)
+
+    valid_list = []
+    invalid_list = []
+
+    # sort the dict
+    dict_vehicles_time_sorted = dict(sorted(dict_vehicles.items(), 
+                                            key=lambda item: item[1]['time']))
+
+
+    for traj_id in dict_vehicles_time_sorted.keys():
+
+            edge_list = dict_vehicles_time_sorted[traj_id]['edges']
+
+            valid_list.append(traj_id)
+
+            start_second = str(dict_vehicles_time_sorted[traj_id]['time'])
+
+            try:
+                col = str(dict_vehicles_time_sorted[traj_id]['color'])
+            except:
+                col = "blue"
+            
+            element = root.createElement("vehicle")
+            element.setAttribute("color", col)
+            element.setAttribute("id", traj_id)
+            element.setAttribute("type", "type1")
+            element.setAttribute("depart", start_second)
+            
+            route_element = root.createElement("route")
+            route_element.setAttribute("edges", edge_list)
+            element.appendChild(route_element)
+
+            xml.appendChild(element)
+
+    xml_str = root.toprettyxml(indent="\t")
+
+    with open(filename, "w") as f:
+        f.write(xml_str)
+
+    return {'valid':valid_list, 'invalid': invalid_list}
+
+
+
 
 
 def create_traffic_from_matrix(od_matrix, dict_tile_edges, n_vehicles, road_network, threshold_km=1.2, max_tries=100, 
@@ -384,3 +457,245 @@ def call_duarouter_command(command_str):
         p = subprocess.Popen(command_str, shell=True, stdout=subprocess.PIPE, 
                                      stderr=subprocess.STDOUT)
         retval = p.wait()
+
+
+def get_route_osm(start_lat, start_lon, end_lat, end_lon, key, 
+                    preference="recommended", geometry_simplify=False, validate=False, create_map=True):
+    
+
+    coordinates = [[start_lon, start_lat], [end_lon, end_lat]]
+
+    client = ors.Client(key=key)
+
+    route = client.directions(
+        coordinates=coordinates,
+        profile='driving-car',
+        preference=preference,
+        format='geojson',
+        geometry_simplify=geometry_simplify,
+        validate=True,
+    )
+
+    if create_map:
+
+        m = folium.Map(location=[start_lat, start_lon], tiles='cartodbpositron', zoom_start=13)
+        folium.PolyLine(locations=[list(reversed(coord)) 
+                           for coord in 
+                           route['features'][0]['geometry']['coordinates']]).add_to(m)
+    else:
+        m = None
+    
+    points = [coord for coord in route['features'][0]['geometry']['coordinates']]
+    
+    osm_dist = route['features'][0]['properties']['segments'][0]['distance']
+    
+    return (m, points, route, osm_dist)
+
+
+
+def create_routed_demand_osm(dict_mobility_demand, list_id_vehicles, road_network, osm_api_key):
+    
+    dict_results_osm = {}
+    
+    for v in list(list_id_vehicles):
+
+        if "vehicle" in v:
+
+            # retrieve origin and destination edges
+            edge_from = dict_mobility_demand[v]['edges'][0]
+            edge_to = dict_mobility_demand[v]['edges'][1]
+
+            # compute the GPS coordinate of the starting and ending edge
+            gps_from = gps_coordinate_of_edge_avg(road_network, edge_from)
+            gps_to = gps_coordinate_of_edge_avg(road_network, edge_to)
+            start_lat, start_lon = gps_from[1], gps_from[0]
+            end_lat, end_lon = gps_to[1], gps_to[0]
+
+            # get the recommended path from to OpenStreetMap
+            m, points, route, osm_dist = get_route_osm(start_lat, start_lon, end_lat, end_lon, osm_api_key,
+                                       preference="recommended", geometry_simplify=False, validate=False)
+
+            dict_results_osm[v] = {"points":points, "distance":osm_dist}
+        
+            sleep(0.3)
+        
+    return dict_results_osm
+
+
+
+def get_route_tomtom(start_lat, start_lon, end_lat, end_lon, departure_time_start, key, routing_type='fastest', create_map=True):
+    
+    base_url = "https://api.tomtom.com/routing/1/calculateRoute/"
+    
+    # starting and ending locations (as strings)
+    start = "%s,%s" %(start_lat,start_lon)
+    end = "%s,%s" %(end_lat,end_lon)
+    
+    # departure time
+    departure_time = departure_time_start.replace(hour=departure_time_start.hour)
+    departure_time = departure_time.strftime('%Y-%m-%dT%H:%M:%S')    
+
+    # create request URL
+    request_params = (
+        urlparse.quote(start) + ":" + urlparse.quote(end) 
+        + "/json?departAt=" + urlparse.quote(departure_time)
+        + "&routeType=" + urlparse.quote(routing_type))+"&coordinatePrecision=full"
+
+    request_url = base_url + request_params + "&key=" + key
+
+    # get data
+    response = requests.get(request_url)
+
+    # convert to JSON
+    json_result = response.json()
+    if 'error' in json_result.keys():
+        print(json_result['error']['description'])
+        return (None, None, None)
+    # json_result is an object that also has a 'summary' dict indicating a few details on the computed route: 
+    # {'lengthInMeters','travelTimeInSeconds', 'trafficDelayInSeconds', 'trafficLengthInMeters', 'departureTime','arrivalTime'}
+    # It can be obtained as: json_result['routes'][0]['summary']
+    
+    # getting the points forming the route
+    list_route_points = json_result['routes'][0]['legs'][0]['points']
+    df_route = pd.json_normalize(list_route_points)
+    points = [[lat, lng] for lat,lng in zip(df_route['latitude'],df_route['longitude'])]
+    
+    if create_map:
+
+        m = folium.Map(location=[start_lat, start_lon], tiles='cartodbpositron', zoom_start=15)
+        folium.PolyLine(points).add_to(m)
+    else:
+        m = None
+    
+    return (m, points, json_result, json_result['routes'][0]['summary']['lengthInMeters'])
+
+
+
+def create_routed_demand_tomtom(dict_mobility_demand, list_id_vehicles, road_network, tomtom_api_key):
+    
+    dict_results_tomtom = {}
+    
+    # compute time
+    today = datetime.date.today()
+    departure_time_start = datetime.datetime(today.year, today.month, today.day-1, 15, 0, 0)
+    
+    for v in list(list_id_vehicles):
+
+        if "vehicle" in v:
+
+            # retrieve origin and destination edges
+            edge_from = dict_mobility_demand[v]['edges'][0]
+            edge_to = dict_mobility_demand[v]['edges'][1]
+
+            # compute the GPS coordinate of the starting and ending edge
+            gps_from = gps_coordinate_of_edge_avg(road_network, edge_from)
+            gps_to = gps_coordinate_of_edge_avg(road_network, edge_to)
+            start_lat, start_lon = gps_from[1], gps_from[0]
+            end_lat, end_lon = gps_to[1], gps_to[0]
+
+            # get the recommended path from TomTom
+            m, points, route, tomtom_dist = get_route_tomtom(start_lat, start_lon, end_lat, end_lon, departure_time_start, 
+                                     tomtom_api_key, routing_type='short', create_map=False)
+            
+            #reverse in lng, lat 
+            points_r = [list(reversed(p)) for p in points]
+
+            dict_results_tomtom[v] = {"points":points_r, "distance":tomtom_dist}
+            
+            sleep(0.3)
+        
+    return dict_results_tomtom
+
+
+def assemble_demand(demands_folder, full_demand_duarouter, full_demand_routed, n_totals, 
+                       frac_routed, frac_dua, demands_output_name, prefix_nav, random_seed=None):
+     
+    if random_seed is not None:
+        rand_v = random_seed
+    else:
+        rand_v = np.random.randint(0,9999999)
+
+    np.random.seed(rand_v)
+
+    n_vehicles_routed = int(n_totals*frac_routed)
+    n_vehicles_dua = int(n_totals*frac_dua)
+
+
+    if n_vehicles_routed + n_vehicles_dua != n_totals:
+        diff = n_totals - (n_vehicles_dua + n_vehicles_routed)
+        n_vehicles_osm = n_vehicles_osm + diff
+
+    permuted_ids = list(np.random.permutation(np.arange(n_totals)))
+
+    ids_routed = permuted_ids[:n_vehicles_routed]
+    ids_dua = permuted_ids[n_vehicles_routed:]
+    
+    
+    #ensure that they are disjointed
+    if len(set.intersection(set(ids_routed), set(ids_dua))) != 0:
+        print("error intersection")
+
+    dict_vehicles = {}
+
+    # DUAROUTER
+    route_xml = xml.dom.minidom.parse(full_demand_duarouter)
+    for v in route_xml.getElementsByTagName('vehicle'):
+        if "vehicle" in v.attributes['id'].value:
+            v_id = v.attributes['id'].value.replace("vehicle_","").replace(".0","")
+            if int(v_id) in ids_dua:
+                #print("Keep "+v_id)
+                edges = v.getElementsByTagName('route')[0].attributes['edges'].value
+                time = v.attributes['depart'].value
+                dict_vehicles['duarouter_'+v_id] = {'edges':edges, 'color':"red",
+                                                    'time': int(time.replace(".00",""))}
+    # Background vehicles
+    for v in route_xml.getElementsByTagName('vehicle'):
+        v_id = v.attributes['id'].value
+        if "background" in v_id:
+            edges = v.getElementsByTagName('route')[0].attributes['edges'].value
+            time = v.attributes['depart'].value
+            dict_vehicles[v_id] = {'edges':edges, 'color':"red",
+                                   'time': int(time.replace(".00",""))}
+
+    # Routed
+    route_xml = xml.dom.minidom.parse(full_demand_routed)
+    for v in route_xml.getElementsByTagName('vehicle'):
+        v_id = v.attributes['id'].value.replace(prefix_nav+"_","").replace(".0","")
+        if int(v_id) in ids_routed:
+            #print("Keep "+v_id)
+            edges = v.getElementsByTagName('route')[0].attributes['edges'].value
+            time = v.attributes['depart'].value
+            dict_vehicles[prefix_nav+'_'+v_id] = {'edges':edges, 'color':"blue",
+                                          'time': int(time.replace(".00",""))}
+            
+            
+    #Create the xml
+    create_xml_vehicles(dict_vehicles, demands_folder+demands_output_name)
+    
+    return ids_routed, ids_dua
+
+
+
+
+def create_mixed_routed_paths(fractions, n_reps, demands_folder, full_demand_duarouter, full_demand_router, n_totals, 
+                                        prefix_nav):
+
+
+    from decimal import Decimal, getcontext
+    getcontext().prec = 2
+
+
+    for frac_osm in fractions:
+
+        #print("frac "+prefix_nav+": "+str(frac_osm)+"\n")
+        frac_dua = float(Decimal(1)-Decimal(frac_osm))
+
+        for n_rep in range(n_reps):
+
+            random_seed = np.random.randint(0,9999999)
+
+            demands_output_name = prefix_nav+"_"+str(int(frac_osm*100))+"_dua_"+str(int(frac_dua*100))+"_rep_"+str(n_rep)+\
+            "_["+str(random_seed)+"].rou.xml"
+
+            ids_osm, ids_dua = assemble_demand(demands_folder, full_demand_duarouter, full_demand_router, n_totals, 
+                                           frac_osm, frac_dua, demands_output_name, prefix_nav, random_seed=random_seed)
