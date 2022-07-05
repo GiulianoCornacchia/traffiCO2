@@ -24,7 +24,6 @@ If you use the code in this repository, please cite our paper:
   publisher = {arXiv},
   year = {2022}
 }
-
 ```
 
 ## Abstract
@@ -128,5 +127,6 @@ In a Terminal, execute the following steps:
   - ```5{a,b}_create_mixed_routed_paths_{osm,tomtom}.ipynb```: notebook for creating the different routed paths that represent different percentage of routed vehicles for OpenStreetMap (a) and TomTom (b).
   - ```6_experiments.ipynb```: this notebook take as input a set of routed paths and performs the simulation described in Sec. 4 of our paper.
 
- 
-
+- **```sumo_simulation_scripts/```** folder:
+ - ```run_sumo.py```: python script for simulating the mobility described by a multiset of routed paths within a road network. It outputs the CO2 emissions (at edge and vehicle level), vehicles' GPS trajectory, and vehicles' travel time. 
+ - ```sim_utils_sumo.py```: python utilities used in ```run_sumo.py```.
