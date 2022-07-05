@@ -10,18 +10,21 @@ In this repository you can find the Python code to replicate the analysis of our
 
 ```
 Cornacchia, G., Böhm, M., Mauro, G., Nanni, M., Pedreschi, D., & Pappalardo, L. (2022).
-How Routing Strategies Impact Urban Emissions. arXiv preprint arXiv:xxxx.xxxx.
+How Routing Strategies Impact Urban Emissions. arXiv preprint arXiv:2207.01456.
 ```
 
 If you use the code in this repository, please cite our paper:
 
 ```
-@article{cornacchia2022impact,
-  title={How Routing Strategies Impact Urban Emissions},
-  author={Cornacchia, Giuliano and Böhm Matteo and Mauro, Giovanni and Nanni, Mirco and Pedreschi, Dino and Pappalardo, Luca},
-  journal={},
-  year={2022}
+@misc{cornacchia2022impact,
+  doi = {10.48550/ARXIV.2207.01456},
+  url = {https://arxiv.org/abs/2207.01456},
+  author = {Cornacchia, Giuliano and Böhm, Matteo and Mauro, Giovanni and Nanni, Mirco and Pedreschi, Dino and Pappalardo, Luca},
+  title = {How Routing Strategies Impact Urban Emissions},
+  publisher = {arXiv},
+  year = {2022}
 }
+
 ```
 
 ## Abstract
