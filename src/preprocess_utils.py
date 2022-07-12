@@ -1,6 +1,7 @@
 import skmob
 import pandas as pd
 import geopandas as gpd
+import numpy as np
 
 def split_trajectories_in_tdf(tdf, stop_tdf):
     tdf_with_tid = tdf.groupby('uid').apply(_split_trajectories, stop_tdf)

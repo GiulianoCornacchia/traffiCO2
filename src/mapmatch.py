@@ -161,11 +161,14 @@ def autoadapting_map_matching(points, road_network, road_network_int, edge_from,
 
     for th in th_list:
         
-        try:
+        '''try:
             edges_map_matched = map_matching_alg(points, road_network, edge_from, edge_to, max_dist_list, 
                                                  th=th, fastest=fastest)
         except:
-            print("error")
+            print("error")'''
+        
+        edges_map_matched = map_matching_alg(points, road_network, edge_from, edge_to, max_dist_list, 
+                                                 th=th, fastest=fastest)
         
         # compute scores
         
@@ -265,8 +268,10 @@ def my_get_edges_from_duarouter(list_edge_list, road_network, fastest=True):
             e1 = road_network.getEdge(edge_list[i+1])
 
             path_e0_e1 = road_network.getOptimalPath(e0, e1, fastest=fastest)
-            for e in path_e0_e1[0]:
-                edges_reconstructed.append(e.getID())
+            
+            if path_e0_e1[0] is not None:
+                for e in path_e0_e1[0]:
+                    edges_reconstructed.append(e.getID())
 
         edges_reconstructed = [key for key, _group in groupby(edges_reconstructed)]
         

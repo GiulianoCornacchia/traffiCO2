@@ -678,7 +678,7 @@ def assemble_demand(demands_folder, full_demand_duarouter, full_demand_routed, n
 
 
 def create_mixed_routed_paths(fractions, n_reps, demands_folder, full_demand_duarouter, full_demand_router, n_totals, 
-                                        prefix_nav):
+                                        prefix_nav, specify_w=False):
 
 
     from decimal import Decimal, getcontext
@@ -693,9 +693,21 @@ def create_mixed_routed_paths(fractions, n_reps, demands_folder, full_demand_dua
         for n_rep in range(n_reps):
 
             random_seed = np.random.randint(0,9999999)
-
-            demands_output_name = prefix_nav+"_"+str(int(frac_osm*100))+"_dua_"+str(int(frac_dua*100))+"_rep_"+str(n_rep)+\
+            
+            if not specify_w:
+                demands_output_name = prefix_nav+"_"+str(int(frac_osm*100))+"_dua_"+str(int(frac_dua*100))+"_rep_"+str(n_rep)+\
+            "_["+str(random_seed)+"].rou.xml"
+             
+            else:
+                w = full_demand_duarouter.split("w")[-1].split("_")[0]
+                demands_output_name = "w"+w+"_"+prefix_nav+"_"+str(int(frac_osm*100))+"_dua_"+str(int(frac_dua*100))+"_rep_"+str(n_rep)+\
             "_["+str(random_seed)+"].rou.xml"
 
             ids_osm, ids_dua = assemble_demand(demands_folder, full_demand_duarouter, full_demand_router, n_totals, 
                                            frac_osm, frac_dua, demands_output_name, prefix_nav, random_seed=random_seed)
+            
+            
+            
+            
+            
+            
