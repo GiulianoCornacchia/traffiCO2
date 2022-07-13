@@ -137,6 +137,6 @@ In a Terminal, execute the following steps:
   - ```mobility_demands/```: this folder contains the Mobility Demands generated with the notebook ```2_create_mobility_demand.ipynb```.
   - ```routed_paths/```: this folder contains the Routed Paths generated with the notebook ```3{a,b,c}_create_routed_paths{duarouter,osm,tomtom}.ipynb```.
   - ```milan_road_network.net.xml```: xml file containing the preprocessed SUMO road network of Milan (Italy) used in our experiments.
-  - ```config_init_traci.rou.xml, config_init_traci.sumocfg``` two config file for the library ```traci``` that allows to control simulation aspects at runtime.
+  - ```config_init_traci.rou.xml, config_init_traci.sumocfg``` two config files for the library ```traci``` that allows to control simulation aspects at runtime.
 
 - **```sim_outputs/```** folder contains the outputs of the SUMO simulation performed with the notebook ```6_experiments.ipynb```.
