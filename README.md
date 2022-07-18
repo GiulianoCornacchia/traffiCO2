@@ -128,9 +128,12 @@ In a Terminal, execute the following steps:
   - ```3{a,b,c}_create_routed_paths{duarouter,osm,tomtom}.ipynb```: notebook for creating the multiset of routed path for duarouter (a), OpenStreetMap (b), and TomTom (c). The paths are expressed as sequences of GPS points that require a map-matching (See Sec. 3.3 of our paper).
   - ```4{a,b}_map_matching_{osm,tomtom}.ipynb```: notebook for map-matching the sequences of GPS points into a sequence of SUMO edges withinh the road network for OpenStreetMap (a) and TomTom (b).
   - ```5{a,b}_create_mixed_routed_paths_{osm,tomtom}.ipynb```: notebook for creating the different routed paths that represent different percentage of routed vehicles for OpenStreetMap (a) and TomTom (b).
-  - ```6_experiments.ipynb```: notebook that takes as input a set of routed paths and performs the simulation described in Sec. 4 of our paper.
+  - ```6a_experiments.ipynb```: notebook that takes as input a set of routed paths and performs the simulation described in Sec. 4 of our paper.
+  - ```6b_results.ipynb```: notebook that computes the results of the main experiment.
   - ```7_create_mixed_routed_paths_w_factor.ipynb```: notebook for creating mixed routed paths considering several values for the randomness parameter w.
-  - ```8_experiments_w_factor.ipynb```: notebook that takes as input a set of mixed routed paths for different values of w and performs the simulation described in the subsection "Impact of randomization." of our paper.
+  - ```8a_experiments_w_factor.ipynb```: notebook that takes as input a set of mixed routed paths for different values of w and performs the simulation described in the subsection "Impact of randomization." of our paper.
+  - ```8b_results_w_factor.ipynb```: notebook that computes the results of the w factor experiment.
+  - ```9_paper_figures.ipynb```: notebook that generated the figures used in the paper.
 
 - **```sumo_simulation_scripts/```** folder:
   - ```run_sumo.py```: python script for simulating the mobility described by a multiset of routed paths within a road network. It outputs the CO2 emissions (at edge and vehicle level), vehicles' GPS trajectory, and vehicles' travel time. 
