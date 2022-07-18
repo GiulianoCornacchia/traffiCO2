@@ -5,6 +5,7 @@
 
 Authors: Giuliano Cornacchia, Matteo Böhm, Giovanni Mauro, Mirco Nanni, Dino Pedreschi, and Luca Pappalardo.
 
+Pre-print available [here](https://arxiv.org/abs/2207.01456).
 
 In this repository you can find the Python code to replicate the analysis of our work regarding the impact of navigation apps on the urban sustainability.
 
