@@ -207,6 +207,42 @@ def create_dict_exps_w(folder_experiments, nav_str):
         else:
             dict_exps[w] = {key_de: {n_rep: exp}}
                 
-        return dict_exps
+    return dict_exps
 
 
+def compute_wt_syn_json(filename):
+    
+    travel_times = []
+    with open(filename) as json_file:
+        dict_json = json.load(json_file)
+        
+    for k in dict_json.keys():
+        travel_times.append(dict_json[k]) 
+        
+    return travel_times
+
+
+def create_dict_results_traveltime(dict_exps, folder_experiments):
+
+    dict_total_tts = {}
+
+    for fit_key in dict_exps.keys():
+
+            map__simulation_type__filename = dict_exps[fit_key]
+
+            map__simulation_type__df = {}
+
+            avg_tt_list = []
+
+            for c_type, c_file_name in map__simulation_type__filename.items():
+
+                c_df = glob(folder_experiments+c_file_name+"/traveltimes.json")[0]
+                tt_list_run = compute_wt_syn_json(c_df)
+
+                avg_tt = np.mean(tt_list_run)
+
+                avg_tt_list.append(avg_tt)
+
+            dict_total_tts[fit_key] = avg_tt_list
+            
+    return dict_total_tts
