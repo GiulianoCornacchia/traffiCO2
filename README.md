@@ -149,4 +149,4 @@ In a Terminal, execute the following steps:
   - ```milan_road_network.net.xml```: xml file containing the preprocessed SUMO road network of Milan (Italy) used in our experiments.
   - ```config_init_traci.rou.xml, config_init_traci.sumocfg``` two config files for the library ```traci``` that allows to control simulation aspects at runtime.
 
-- **```sim_outputs/```** folder contains the outputs of the SUMO simulation performed with the notebook ```6_experiments.ipynb```.
+- **```sim_outputs/```** folder contains the outputs of the SUMO simulation performed with the notebooks ```6a_experiments.ipynb``` and ```8a_experiments_w_factor.ipynb```.
