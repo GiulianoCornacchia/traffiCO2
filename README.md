@@ -134,8 +134,9 @@ In a Terminal, execute the following steps:
   - ```7_create_mixed_routed_paths_w_factor.ipynb```: notebook for creating mixed routed paths considering several values for the randomness parameter w.
   - ```8a_experiments_w_factor.ipynb```: notebook that takes as input a set of mixed routed paths for different values of w and performs the simulation described in the subsection "Impact of randomization." of our paper.
   - ```8b_results_w_factor.ipynb```: notebook that computes the results of the w factor experiment.
-  - ```9_paper_figures.ipynb```: notebook that generates the figures used in the paper.
-
+  - ```9a_paper_figures.ipynb```: notebook that generates the figures used in the paper.
+  - ```9b_paper_maps.ipynb```: notebook that generates the maps used in the paper.
+  
 - **```sumo_simulation_scripts/```** folder:
   - ```run_sumo.py```: python script for simulating the mobility described by a multiset of routed paths within a road network. It outputs the CO2 emissions (at edge and vehicle level), vehicles' GPS trajectory, and vehicles' travel time. 
   - ```sim_utils_sumo.py```: python utility functions used in ```run_sumo.py```.
