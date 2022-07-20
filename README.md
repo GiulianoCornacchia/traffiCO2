@@ -138,6 +138,7 @@ In a Terminal, execute the following steps:
   - ```8b_results_w_factor.ipynb```: notebook that computes the results of the w factor experiment.
   - ```9a_paper_figures.ipynb```: notebook that generates the figures used in the paper.
   - ```9b_paper_maps.ipynb```: notebook that generates the maps used in the paper.
+  ____
   - ```fitting.py```: python utility functions for fitting the truncated power-law from the CO2 emissions.
   - ```mapmatch.py```: python utility functions for map matching GPS points to edges in the SUMO road network.
   - ```plot_utils.py```: python utility functions for generating the figures.
