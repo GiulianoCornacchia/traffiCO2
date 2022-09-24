@@ -472,7 +472,7 @@ def match_with_shortest(points_traj, road_network, road_network_int, fr, to):
     edge_from, edge_to = road_network.getEdge(fr), road_network.getEdge(to)
     
     # SHORTEST
-    short_edge = road_network.getShortestPath(edge_from, edge_to)
+    short_edge = road_network.getOptimalPath(edge_from, edge_to, fastest=False)
     short_edge_list = [e.getID() for e in short_edge[0]]
     tdf_short = tdf_from_edgelist(short_edge_list, road_network)
     points_short = tdf_short[['lng','lat']].values
