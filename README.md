@@ -5,27 +5,33 @@
 
 Authors: Giuliano Cornacchia, Matteo Böhm, Giovanni Mauro, Mirco Nanni, Dino Pedreschi, and Luca Pappalardo.
 
-Pre-print available [here](https://arxiv.org/abs/2207.01456).
+Article available [here](https://dl.acm.org/doi/10.1145/3557915.3560977).
 
 Simulation results data available at https://doi.org/10.6084/m9.figshare.c.6104511.v1
 
 In this repository you can find the Python code to replicate the analysis of our work regarding the impact of navigation apps on the urban sustainability.
 
 ```
-Cornacchia, G., Böhm, M., Mauro, G., Nanni, M., Pedreschi, D., & Pappalardo, L. (2022).
-How Routing Strategies Impact Urban Emissions. arXiv preprint arXiv:2207.01456.
+Giuliano Cornacchia, Matteo Böhm, Giovanni Mauro, Mirco Nanni, Dino Pedreschi, and Luca Pappalardo. 2022. How routing strategies impact urban emissions. In Proceedings of the 30th International Conference on Advances in Geographic Information Systems (SIGSPATIAL '22). Association for Computing Machinery, New York, NY, USA, Article 42, 1–4. https://doi.org/10.1145/3557915.3560977
 ```
 
 If you use the code in this repository, please cite our paper:
 
 ```
-@misc{cornacchia2022impact,
-  doi = {10.48550/ARXIV.2207.01456},
-  url = {https://arxiv.org/abs/2207.01456},
-  author = {Cornacchia, Giuliano and Böhm, Matteo and Mauro, Giovanni and Nanni, Mirco and Pedreschi, Dino and Pappalardo, Luca},
-  title = {How Routing Strategies Impact Urban Emissions},
-  publisher = {arXiv},
-  year = {2022}
+@inproceedings{10.1145/3557915.3560977,
+author = {Cornacchia, Giuliano and B\"{o}hm, Matteo and Mauro, Giovanni and Nanni, Mirco and Pedreschi, Dino and Pappalardo, Luca},
+title = {How Routing Strategies Impact Urban Emissions},
+year = {2022},
+isbn = {9781450395298},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3557915.3560977},
+doi = {10.1145/3557915.3560977},
+articleno = {42},
+numpages = {4},
+keywords = {urban sustainability, navigation systems, human mobility, social AI, routing, traffic simulation, vehicular traffic},
+location = {Seattle, Washington},
+series = {SIGSPATIAL '22}
 }
 ```
 
