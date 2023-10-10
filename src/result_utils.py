@@ -6,6 +6,37 @@ import json
 from fitting import *
 
 
+def create_dict_results_total(dict_exps, folder_experiments, measure, how, normalize_by=None):
+
+    dict_final = {}
+
+    for scenario in dict_exps.keys():
+
+        sorted_dict = dict(sorted(dict_exps[scenario].items(), key=lambda item: item[0]))
+        tmp_results = []
+        
+        for exp_run in sorted_dict: 
+            df = pd.read_csv(glob(folder_experiments+sorted_dict[exp_run]+f"/{how}_measures.csv")[0])
+            
+            if normalize_by is not None:
+                
+                edge_length_list = []
+                for e_id in zip(df["edge_id"]):
+                    edge_length_list.append(normalize_by[e_id[0]])
+
+                df["edge_length_m"] = edge_length_list
+                value = (df[measure]/df["edge_length_m"]).sum()
+            
+            else:           
+                value = df[measure].sum()
+                
+            tmp_results.append(value)
+
+        dict_final[scenario] = tmp_results
+        
+    return dict_final
+
+
 def create_dict_exps(folder_experiments, nav_str):
 
     dict_exps = {}
@@ -54,7 +85,7 @@ def create_dict_results_co2(dict_exps, folder_experiments):
 
         map__simulation_type__df = {}
         for c_type, c_file_name in map__simulation_type__filename.items():
-            c_df = pd.read_csv(glob(folder_experiments+c_file_name+"/co2_edge.csv")[0])
+            c_df = pd.read_csv(glob(folder_experiments+c_file_name+"/edge:measures.csv")[0])
             map__simulation_type__df[c_type] = c_df.rename(columns={'total_co2': c_type})
 
         merged_df = merge([df for df in map__simulation_type__df.values()], on_columns='edge_id')
@@ -83,11 +114,13 @@ def create_dict_results_alpha(dict_exps, folder_experiments):
 
         map__simulation_type__df = {}
         for c_type, c_file_name in map__simulation_type__filename.items():
-            c_df = pd.read_csv(glob(folder_experiments+c_file_name+"/co2_edge.csv")[0])
-            map__simulation_type__df[c_type] = c_df.rename(columns={'total_co2': c_type})
+            c_df = pd.read_csv(glob(folder_experiments+c_file_name+"/edge_measures.csv")[0])
+            c_df = c_df.rename(columns={'total_co2': c_type})
+            map__simulation_type__df[c_type] = c_df[["edge_id",c_type]]
 
         merged_df = merge([df for df in map__simulation_type__df.values()], on_columns='edge_id')
-
+        
+    
         #ALPHA (POWER-LAW EXPONENT)
 
         ## mapping each simulation to the emissions distribution
@@ -147,8 +180,9 @@ def create_dict_results_gini(dict_exps, folder_experiments):
 
         map__simulation_type__df = {}
         for c_type, c_file_name in map__simulation_type__filename.items():
-            c_df = pd.read_csv(glob(folder_experiments+c_file_name+"/co2_edge.csv")[0])
-            map__simulation_type__df[c_type] = c_df.rename(columns={'total_co2': c_type})
+            c_df = pd.read_csv(glob(folder_experiments+c_file_name+"/edge_measures.csv")[0])
+            c_df = c_df.rename(columns={'total_co2': c_type})
+            map__simulation_type__df[c_type] = c_df[["edge_id", c_type]]
 
         merged_df = merge([df for df in map__simulation_type__df.values()], on_columns='edge_id')
         
